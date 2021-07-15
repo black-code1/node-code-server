@@ -4,10 +4,23 @@ const http = require('http');
 // require file system module
 const fs = require('fs');
 
+// require lodash local package - local package create node_modules folder
+const _ = require('lodash');
+
 // create a server with the http module
 // the callback function runs everytime the request comes in to our server
 const server = http.createServer((req, res) => {
-  console.log(req.url, req.method);
+  // lodash
+  const num = _.random(0, 20);
+  console.log(num);
+
+  // run once a function with _.once lodash function
+  const greet = _.once(() => {
+    console.log('hello');
+  });
+
+  greet();
+  greet();
 
   // set header content type
   res.setHeader('content-type', 'text/html');
