@@ -4,6 +4,10 @@ const express = require('express');
 // setup express app - invoke express to create an instance of express app
 const app = express();
 
+// register view engine
+app.set('view engine', 'ejs')
+
+
 // listen for request
 app.listen(3000);
 
