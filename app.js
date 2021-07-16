@@ -4,6 +4,10 @@ const morgan = require('morgan');
 // setup express app - invoke express to create an instance of express app
 const app = express();
 
+// connect to mongodb
+const dbURI = 'mongodb+srv://legrand:legrand@cluster0.jgecv.mongodb.net/node-tuts?retryWrites=true&w=majority'
+
+
 // register view engine
 app.set('view engine', 'ejs')
 
