@@ -66,17 +66,28 @@ app.get('/single-blog', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  const blogs = [
-    {title: 'Grealish finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
-    {title: 'Diaz finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
-    {title: 'Ferran finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
-  ]
-  res.render('index', {title: 'Home', blogs});
+ res.redirect('/blogs')
 });
+
+// blog routes
+app.get('/blogs', (req, res) => {
+  // find and sort in descending order
+  Blog
+    .find()
+    .sort({ createdAt: -1})
+    .then((result) => {
+      res.render('index', { title: 'All Blogs', blogs: result })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
 
 app.get('/about', (req, res) => {
   res.render('about', {title: 'About'});
 });
+
+
 
 app.get('/blogs/create', (req, res) => {
   res.render('create', {title: 'Create a new Blog'});
