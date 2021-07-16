@@ -11,6 +11,14 @@ app.set('view engine', 'ejs')
 // listen for request
 app.listen(3000);
 
+// middleware
+app.use((req, res) => {
+  console.log('new request mad:');
+  console.log('host: ', req.hostname);
+  console.log('path: ', req.path);
+  console.log('method: ', req.method);
+})
+
 app.get('/', (req, res) => {
   const blogs = [
     {title: 'Grealish finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
