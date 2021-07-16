@@ -28,8 +28,12 @@ app.use(express.urlencoded({ extended: true }))
 // morgan middleware
 app.use(morgan('dev'))
 
+app.use((req, res, next) => {
+  res.locals.path = req.path;
+  next();
+});
 // mongoose and mongo sandbox routes
-app.get('/add-blog', (req, res) => {
+/*app.get('/add-blog', (req, res) => {
   const blog = new Blog({
     title: 'new blog 2',
     snippet: 'about my new blog',
@@ -44,7 +48,8 @@ app.get('/add-blog', (req, res) => {
         console.log(err);
       })
 });
-
+*/
+/*
 app.get('/all-blogs', (req, res) => {
   Blog
     .find()
@@ -55,7 +60,8 @@ app.get('/all-blogs', (req, res) => {
       console.log(err);
     })
 })
-
+*/
+/*
 app.get('/single-blog', (req, res) => {
   Blog
     .findById('60f15368635d5e48d11978bb')
@@ -66,12 +72,20 @@ app.get('/single-blog', (req, res) => {
       console.log(err)
     })
 })
-
+*/
+// routes
 app.get('/', (req, res) => {
  res.redirect('/blogs')
 });
 
+app.get('/about', (req, res) => {
+  res.render('about', {title: 'About'});
+});
 // blog routes
+app.get('/blogs/create', (req, res) => {
+  res.render('create', {title: 'Create a new Blog'});
+})
+
 app.get('/blogs', (req, res) => {
   // find and sort in descending order
   Blog
@@ -105,18 +119,24 @@ app.get('/blogs/:id', (req, res) => {
     .then((result) => {
       res.render('details', { blog: result, title: 'Blog Details' })
     })
-    .catch()
+    .catch(err => {
+      console.log(err);
+    })
 })
 
-app.get('/about', (req, res) => {
-  res.render('about', {title: 'About'});
-});
+app.delete('/blogs/:id', (req, res) => {
+  const id = req.params.id;
 
-
-
-app.get('/blogs/create', (req, res) => {
-  res.render('create', {title: 'Create a new Blog'});
+  Blog
+      .findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/blogs' })
+      })
+      .catch(err => console.log(err))
 })
+
+
+
 
 // 404 page - use to create middleware & fire middleware functions in express
 app.use((req, res) =>{
