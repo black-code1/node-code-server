@@ -1,6 +1,6 @@
 // require express - returns a function
 const express = require('express');
-
+const morgan = require('morgan');
 // setup express app - invoke express to create an instance of express app
 const app = express();
 
@@ -11,20 +11,8 @@ app.set('view engine', 'ejs')
 // listen for request
 app.listen(3000);
 
-// middleware
-app.use((req, res, next) => {
-  console.log('new request made:');
-  console.log('host: ', req.hostname);
-  console.log('path: ', req.path);
-  console.log('method: ', req.method);
-  next();
-})
-
-app.use((req, res, next) => {
-  console.log('in the next middleware');
- 
-  next();
-})
+// morgan middleware
+app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
   const blogs = [
