@@ -12,18 +12,23 @@ app.set('view engine', 'ejs')
 app.listen(3000);
 
 app.get('/', (req, res) => {
-  res.render('index');
+  const blogs = [
+    {title: 'Grealish finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
+    {title: 'Diaz finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
+    {title: 'Ferran finds templates', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, vel.'},
+  ]
+  res.render('index', {title: 'Home', blogs});
 });
 
 app.get('/about', (req, res) => {
-  res.render('about');
+  res.render('about', {title: 'About'});
 });
 
 app.get('/blogs/create', (req, res) => {
-  res.render('create');
+  res.render('create', {title: 'Create a new Blog'});
 })
 
 // 404 page - use to create middleware & fire middleware functions in express
 app.use((req, res) =>{
-  res.status(404).render('404');
+  res.status(404).render('404', {title: '404'});
 });
