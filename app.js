@@ -22,6 +22,8 @@ app.set('view engine', 'ejs')
 
 // middleware & static files
 app.use(express.static('public'))
+// middleware that parses urlencoded data into an object we can use on the request object
+app.use(express.urlencoded({ extended: true }))
 
 // morgan middleware
 app.use(morgan('dev'))
@@ -81,6 +83,19 @@ app.get('/blogs', (req, res) => {
     .catch((err) => {
       console.log(err)
     })
+})
+
+app.post('/blogs', (req, res) => {
+  const blog = new Blog(req.body);
+
+  blog
+      .save()
+      .then((result) => {
+        res.redirect('/blogs')
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 })
 
 app.get('/about', (req, res) => {
